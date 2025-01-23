@@ -44,7 +44,8 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" id="menuslider">
             <li class="header">Menu</li>
-            <%=MenuDynamique.renderMenu(arbre,currentMenu,tabMenu,RB) %>              
+            <%=MenuDynamique.renderMenu(arbre,currentMenu,tabMenu,RB) %> 
+            <li><a href="hetra.jsp"></a>Hetra</li>             
         </ul>
     </section>
     <!-- /.sidebar -->
