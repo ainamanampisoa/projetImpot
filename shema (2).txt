@@ -1,0 +1,97 @@
+CREATE TABLE Arrondissement(
+   id_arrondissement NUMBER(10),
+   nom_arrondissement VARCHAR2(250)  NOT NULL,
+   PRIMARY KEY(id_arrondissement)
+); ----------------------------
+
+CREATE TABLE Composant(
+   id_composant NUMBER(10),
+   nom_composant VARCHAR2(250)  NOT NULL,
+   PRIMARY KEY(id_composant)
+); ----------------------------
+
+CREATE TABLE Type_caracteristique(
+   id_type NUMBER(10),
+   nom_type VARCHAR2(250)  NOT NULL,
+   coefficient NUMBER(15,2)   NOT NULL,
+   PRIMARY KEY(id_type)
+); ----------------------------
+
+CREATE TABLE Proprietaire(
+   id_proprietaire NUMBER(10),
+   nom_proprietaire VARCHAR2(250)  NOT NULL,
+   mdp VARCHAR2(250)  NOT NULL,
+   PRIMARY KEY(id_proprietaire)
+); ----------------------------
+
+CREATE TABLE Commun(
+   id_commun NUMBER(10),
+   nom_commun VARCHAR2(250)  NOT NULL,
+   PRIMARY KEY(id_commun)
+); ----------------------------
+
+CREATE TABLE Maison(
+   id_maison NUMBER(10),
+   adress VARCHAR2(50)  NOT NULL,
+   longitude NUMBER(15,2)   NOT NULL,
+   latitude NUMBER(15,2)   NOT NULL,
+   id_commun NUMBER(10) NOT NULL,
+   id_proprietaire NUMBER(10) NOT NULL,
+   id_arrondissement NUMBER(10) NOT NULL,
+   PRIMARY KEY(id_maison),
+   FOREIGN KEY(id_commun) REFERENCES Commun(id_commun),
+   FOREIGN KEY(id_proprietaire) REFERENCES Proprietaire(id_proprietaire),
+   FOREIGN KEY(id_arrondissement) REFERENCES Arrondissement(id_arrondissement)
+); ----------------------------
+
+CREATE TABLE Paymant(
+   id_paymant NUMBER(10),
+   mois NUMBER(10) NOT NULL,
+   annee NUMBER(10) NOT NULL,
+   montant NUMBER(15,2)   NOT NULL,
+   id_maison NUMBER(10) NOT NULL,
+   PRIMARY KEY(id_paymant),
+   FOREIGN KEY(id_maison) REFERENCES Maison(id_maison)
+); ----------------------------
+
+CREATE TABLE metre_carree(
+   id NUMBER(10),
+   prix NUMBER(15,2)   NOT NULL,
+   date_prix DATE NOT NULL,
+   id_commun NUMBER(10) NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(id_commun) REFERENCES Commun(id_commun)
+); ----------------------------
+
+CREATE TABLE Histo_maison(
+   id_histo NUMBER(10),
+   longueur NUMBER(15,2)   NOT NULL,
+   largueur NUMBER(15,2)   NOT NULL,
+   nbr_etage NUMBER(10) NOT NULL,
+   date_histo DATE NOT NULL,
+   id_maison NUMBER(10) NOT NULL,
+   PRIMARY KEY(id_histo),
+   FOREIGN KEY(id_maison) REFERENCES Maison(id_maison)
+); ----------------------------
+
+CREATE TABLE Facture(
+   id_facture NUMBER(10),
+   date_facture DATE NOT NULL,
+   montant NUMBER(15,2)   NOT NULL,
+   id_proprietaire NUMBER(10) NOT NULL,
+   id_maison NUMBER(10) NOT NULL,
+   PRIMARY KEY(id_facture),
+   FOREIGN KEY(id_proprietaire) REFERENCES Proprietaire(id_proprietaire),
+   FOREIGN KEY(id_maison) REFERENCES Maison(id_maison)
+); ----------------------------
+
+CREATE TABLE Caracteristique(
+   id_maison NUMBER(10),
+   id_composant NUMBER(10),
+   id_type NUMBER(10),
+   date_caracteristique DATE NOT NULL,
+   PRIMARY KEY(id_maison, id_composant, id_type),
+   FOREIGN KEY(id_maison) REFERENCES Maison(id_maison),
+   FOREIGN KEY(id_composant) REFERENCES Composant(id_composant),
+   FOREIGN KEY(id_type) REFERENCES Type_caracteristique(id_type)
+); ----------------------------
